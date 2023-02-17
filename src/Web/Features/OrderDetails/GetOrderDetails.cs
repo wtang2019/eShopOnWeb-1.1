@@ -10,6 +10,7 @@ public class GetOrderDetails : IRequest<OrderViewModel>
 
     public GetOrderDetails(string userName, int orderId)
     {
+        throw new Exception();
         UserName = userName;
         OrderId = orderId;
     }
