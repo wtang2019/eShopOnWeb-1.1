@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.eShopWeb.Web.Features.MyOrders;
 using Microsoft.eShopWeb.Web.Features.OrderDetails;
+using static NewRelic.Api.Agent.NewRelic;
 
 namespace Microsoft.eShopWeb.Web.Controllers;
 
@@ -33,7 +34,14 @@ public class OrderController : Controller
 
         if (viewModel == null)
         {
-            return BadRequest("No such order found for this user.");
+            try
+        {
+            throw new Exception("500 Internal Server Error");
+        }
+        catch(Exception ex)
+        {
+                NewRelic.Api.Agent.NewRelic.NoticeError(ex);
+        }
         }
 
         return View(viewModel);
